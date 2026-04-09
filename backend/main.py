@@ -5,15 +5,16 @@ from agent import graph
 from dotenv import load_dotenv
 
 load_dotenv()
+
 app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all domains for your IBM demo
+    allow_origins=["*"], # Allows all origins, including your Vercel link
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"], # Allows POST, GET, etc.
+    allow_headers=["*"], # Allows Content-Type, etc.
 )
-
 class ChatRequest(BaseModel):
     message: str
     session_id: str
