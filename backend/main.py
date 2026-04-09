@@ -8,14 +8,13 @@ load_dotenv()
 
 app = FastAPI()
 
-# IMPORTANT: This must be configured correctly for Vercel to communicate
+# 1. CORS MUST BE FIRST
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], # For the IBM demo, this is safest
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"], # Explicitly add OPTIONS
+    allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"]
 )
 
 class ChatRequest(BaseModel):
