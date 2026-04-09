@@ -22,7 +22,7 @@ class ChatRequest(BaseModel):
 # In-memory session storage
 sessions_db = {}
 
-@app.post("/chat")
+@app.post("/chat")  # <--- MUST be @app.post and MUST match the frontend URL
 async def chat(req: ChatRequest):
     # 1. Initialize session if new
     if req.session_id not in sessions_db:
