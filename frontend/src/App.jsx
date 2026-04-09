@@ -66,13 +66,10 @@ export default function App() {
 
     try {
      const res = await fetch("https://hospital-ai-backend-iyg4.onrender.com/chat", {
-        method: "POST",
+        method: "POST", // <--- Verify this is POST, not GET
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          message: currentInput, 
-          session_id: sessionId 
-        })
-      });
+        body: JSON.stringify({ message: currentInput, session_id: sessionId })
+     });
       
       const data = await res.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
