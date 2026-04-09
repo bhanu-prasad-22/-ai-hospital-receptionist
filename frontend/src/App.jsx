@@ -65,7 +65,7 @@ export default function App() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/chat", {
+     const res = await fetch("https://hospital-ai-backend-iyg4.onrender.com/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
