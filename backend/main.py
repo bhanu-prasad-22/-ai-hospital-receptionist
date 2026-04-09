@@ -8,23 +8,28 @@ load_dotenv()
 
 app = FastAPI()
 
+# IMPORTANT: This must be configured correctly for Vercel to communicate
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Allows all origins, including your Vercel link
+    allow_origins=["*"], 
     allow_credentials=True,
-    allow_methods=["*"], # Allows POST, GET, etc.
-    allow_headers=["*"], # Allows Content-Type, etc.
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 class ChatRequest(BaseModel):
     message: str
     session_id: str
 
-# In-memory session storage
 sessions_db = {}
 
-@app.post("/chat")  # <--- MUST be @app.post and MUST match the frontend URL
+# Added a root route so you don't get "Not Found" at the base URL
+@app.get("/")
+async def root():
+    return {"status": "Hospital AI Backend is Running"}
+
+@app.post("/chat")
 async def chat(req: ChatRequest):
-    # 1. Initialize session if new
     if req.session_id not in sessions_db:
         sessions_db[req.session_id] = {
             "session_id": req.session_id,
@@ -36,18 +41,15 @@ async def chat(req: ChatRequest):
             "complete": False
         }
     
-    # 2. Update local state with the new message
     current_state = sessions_db[req.session_id]
     current_state["messages"].append({"role": "user", "content": req.message})
     
-    # 3. Invoke Graph (Memory is passed in via current_state)
+    # Invoke Graph
     result = await graph.ainvoke(current_state)
     
-    # 4. Merge results back into our session storage
     sessions_db[req.session_id].update(result)
     updated_session = sessions_db[req.session_id]
     
-    # 5. Return the full accumulated data to the React Frontend
     return {
         "reply": updated_session.get("reply"),
         "ward": updated_session.get("ward"),
