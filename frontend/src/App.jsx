@@ -9,7 +9,7 @@ const WardBadge = ({ ward }) => {
   };
 
   return ward ? (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 animate-in fade-in slide-in-from-top-1">
       <p className="text-[10px] uppercase font-bold text-slate-400 ml-1">Assigned Ward</p>
       <span className={`${colors[ward] || 'bg-gray-500'} text-white px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest border-b-2 shadow-lg transition-all`}>
         {ward}
@@ -19,7 +19,7 @@ const WardBadge = ({ ward }) => {
 };
 
 export default function App() {
-  // --- 1. SESSION MANAGEMENT (Invisible to User) ---
+  // --- SESSION MANAGEMENT ---
   const generateId = () => "sid_" + Math.random().toString(36).substr(2, 9);
   const [sessionId, setSessionId] = useState(generateId());
   
@@ -39,14 +39,7 @@ export default function App() {
   const startNewPatient = () => {
     setSessionId(generateId());
     setMessages([]);
-    setInput("");
-    setSummary({ 
-      name: "", 
-      age: "", 
-      query: "", 
-      ward: "", 
-      complete: false 
-    });
+    setSummary({ name: "", age: "", query: "", ward: "", complete: false });
   };
 
   useEffect(() => {
@@ -56,24 +49,30 @@ export default function App() {
   }, [messages, isLoading]);
 
   const send = async () => {
-    if (!input.trim() || summary.complete) return;
+    if (!input.trim() || summary.complete || isLoading) return;
 
-    const userMsg = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMsg]);
     const currentInput = input;
+    const userMsg = { role: 'user', content: currentInput };
+    
+    setMessages(prev => [...prev, userMsg]);
     setInput("");
     setIsLoading(true);
 
     try {
-     const res = await fetch("https://hospital-ai-backend-iyg4.onrender.com/chat", {
-        method: "POST", // <--- Verify this is POST, not GET
+      const res = await fetch("https://hospital-ai-backend-iyg4.onrender.com/chat", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: currentInput, session_id: sessionId })
-     });
+      });
+      
+      if (!res.ok) throw new Error("Network response was not ok");
       
       const data = await res.json();
+      
+      // Update chat history
       setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
 
+      // Update Sidebar Summary if data is returned
       if (data.patient_summary || data.ward) {
         setSummary(prev => ({
           ...prev,
@@ -86,7 +85,10 @@ export default function App() {
       }
     } catch (error) {
       console.error("Connection Error:", error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Error connecting to hospital server." }]);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: "I'm having trouble connecting to the medical server. Please try again in a moment." 
+      }]);
     } finally {
       setIsLoading(false);
     }
@@ -98,10 +100,7 @@ export default function App() {
       <div className="w-full md:w-80 bg-white p-6 rounded-3xl shadow-xl h-fit border border-slate-200 sticky top-8">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-3 h-8 bg-blue-600 rounded-full"></div>
-          <div>
-            <h2 className="text-xl font-black text-slate-800 tracking-tight">Patient Record</h2>
-            {/* SESSION ID REMOVED FROM HERE */}
-          </div>
+          <h2 className="text-xl font-black text-slate-800 tracking-tight">Patient Record</h2>
         </div>
         
         <div className="space-y-6">
@@ -152,12 +151,12 @@ export default function App() {
                  </svg>
               </div>
               <h3 className="text-2xl font-black text-slate-800 mb-2">Hospital Triage AI</h3>
-              <p className="text-slate-500 max-w-sm mb-8">Ready to assist with your patient check-in.</p>
+              <p className="text-slate-500 max-w-sm mb-8">Professional AI receptionist for automated patient check-in.</p>
               
               <div className="bg-blue-50 border border-blue-100 p-5 rounded-2xl max-w-sm text-left shadow-sm">
                 <p className="text-[10px] font-bold text-blue-500 uppercase mb-2 tracking-widest">Recommended Format:</p>
                 <p className="text-sm text-blue-800 leading-relaxed italic mb-4">
-                  "I am [Name], [Age] years old, and I have [Symptoms]."
+                  "I am Bhanu, 21 years old, and I have a high fever."
                 </p>
                 <button 
                   onClick={() => setInput("I am Bhanu Prasad, 21 years old, and I have a high fever.")}
@@ -192,7 +191,7 @@ export default function App() {
               value={input} 
               onChange={e => setInput(e.target.value)} 
               onKeyDown={e => e.key === 'Enter' && send()} 
-              placeholder={summary.complete ? "Check-in Finished. Click 'New Patient'." : "Type patient details here..."} 
+              placeholder={summary.complete ? "Check-in Finished. Click 'New Patient'." : "Describe symptoms or provide details..."} 
               className="flex-1 px-5 py-4 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all disabled:bg-slate-50 disabled:cursor-not-allowed" 
             />
             <button 
