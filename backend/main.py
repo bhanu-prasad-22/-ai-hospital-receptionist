@@ -28,7 +28,7 @@ sessions_db = {}
 async def root():
     return {"status": "Hospital AI Backend is Running"}
 
-@app.post("/chat")
+@app.post("/chat") # <--- No slash here
 async def chat(req: ChatRequest):
     if req.session_id not in sessions_db:
         sessions_db[req.session_id] = {
