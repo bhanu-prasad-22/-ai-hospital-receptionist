@@ -2,15 +2,15 @@
 ### An Agentic AI Solution for Automated Patient Triage & Registration
 
 [![Live Demo](https://img.shields.io/badge/Demo-Vercel-blue?style=for-the-badge)](https://ai-hospital-receptionist-wghu-holl80nis.vercel.app/)
-[![API Docs](https://img.shields.io/badge/API-FastAPI-green?style=for-the-badge)](https://hospital-ai-backend-iyg4.onrender.com)
+[![API Docs](https://img.shields.io/badge/API-FastAPI-green?style=for-the-badge)](https://hospital-ai-backend-iyg4.onrender.com/docs#)
 [![IBM SkillsBuild](https://img.shields.io/badge/Internship-IBM%20SkillsBuild-orange?style=for-the-badge)](https://skillsbuild.org)
 
 ## 📌 Project Overview
-The **AI Hospital Receptionist Kiosk** is a full-stack "Agent Project" designed to solve the bottleneck of manual patient intake in hospitals and clinics. Built specifically for Tier 2/3 city infrastructure, this kiosk uses **LangGraph** to perform intelligent medical triage, ensuring urgent cases (like chest pain) are prioritized instantly.
+The **AI Hospital Receptionist ** is a full-stack "Agent Project" designed to solve the bottleneck of manual patient intake in hospitals and clinics. Built specifically for Tier 2/3 city infrastructure, this  uses **LangGraph** to perform intelligent medical triage, ensuring urgent cases (like chest pain) are prioritized instantly.
 
 ## 🚀 Key Features
 * **Natural Language Intake:** Patients interact via a simple chat interface; no complex forms required.
-* **Agentic Triage Logic:** Powered by **Gemini 2.0 Flash**, the system analyzes symptoms to route patients to:
+* **Agentic Triage Logic:** Powered by **Gemini 3.1 Flash**, the system analyzes symptoms to route patients to:
     * 🚨 **Emergency Ward**
     * 🩺 **General Ward**
     * 🧠 **Mental Health Ward**
