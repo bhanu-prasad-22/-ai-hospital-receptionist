@@ -1,8 +1,8 @@
 # 🏥 AI-Powered Hospital Receptionist 
 ### An Agentic AI Solution for Automated Patient Triage & Registration
 
-[![Live Demo](https://img.shields.io/badge/Demo-Vercel-blue?style=for-the-badge)](https://hospital-ai-receptionist.vercel.app)
-[![API Docs](https://img.shields.io/badge/API-FastAPI-green?style=for-the-badge)](https://bit.ly/Hospital-AI-API)
+[![Live Demo](https://img.shields.io/badge/Demo-Vercel-blue?style=for-the-badge)](https://ai-hospital-receptionist-wghu-holl80nis.vercel.app/)
+[![API Docs](https://img.shields.io/badge/API-FastAPI-green?style=for-the-badge)](https://hospital-ai-backend-iyg4.onrender.com)
 [![IBM SkillsBuild](https://img.shields.io/badge/Internship-IBM%20SkillsBuild-orange?style=for-the-badge)](https://skillsbuild.org)
 
 ## 📌 Project Overview
