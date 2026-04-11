@@ -21,7 +21,7 @@ The **AI Hospital Receptionist ** is a full-stack "Agent Project" designed to so
 * **Frontend:** React (Vite) + Tailwind CSS (Deployed on Vercel)
 * **Backend:** Python + FastAPI (Deployed on Render)
 * **Orchestration:** LangGraph (State Machine for Agentic Workflow)
-* **LLM:** Google Gemini 2.0 Flash (via Google AI Studio)
+* **LLM:** Google Gemini 3.1 Flash (via Google AI Studio)
 * **Database:** Supabase (PostgreSQL)
 
 ## 🧬 Agent Architecture
